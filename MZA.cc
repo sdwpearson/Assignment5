@@ -17,15 +17,15 @@
 
 using namespace boost::numeric::odeint;
 
-void rhs (const rarray<double,1>& current_state, rarray<double,1>& next_state , const  double t) {
-	double S = current_state[0];
-	double K = current_state[0];
-	double Z = current_state[0];
+void rhs (const rarray<double,1>& x, rarray<double,1>& dxdt , const double t) {
+	double S = x[0];
+	double K = x[1];
+	double Z = x[2];
 
 	// Equations that define the next state
-	next_state[0] = -B*S*K - E*S*K;
-	next_state[1] = -C*K*Z + E*S*K;
-	next_state[2] =  B*S*Z + C*K*Z - A*K*Z;
+	dxdt[0] = -B*S*K - E*S*K;
+	dxdt[1] = -C*K*Z + E*S*K;
+	next_dxdtstate[2] =  B*S*Z + C*K*Z - A*K*Z;
 }
 
 typedef  runge_kutta_dopri5 <double > stepper_type;
@@ -39,16 +39,16 @@ int  main() {
 	double initial_time = 0;			// Initial time of the simulation (hours)
 	double end_time = 24;				// End time of the simulation (hours)
 	double time_step = 1;				// Time step to report (hours)
-    rarray<double,1> current_state(3);     // State vector containing [S K Z]
+    rarray<double,1> x(3);     			// State vector containing [S K Z]
 
     // Initial condition assignment
-    current_state[0] = S0;				
-    current_state[1] = K0;
-    current_state[2] = Z0;
+    x[0] = S0;				
+    x[1] = K0;
+    x[2] = Z0;
 
 	integrate_adaptive(
 		make_controlled (1E-6, 1E-6,  stepper_type ()),
-	 	rhs , current_state, initial_time, end_time, time_step, report_state);
+	 	rhs , x, initial_time, end_time, time_step, report_state);
 }
 
 

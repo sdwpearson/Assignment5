@@ -8,8 +8,8 @@
 #include "report.h"
 #include <iostream>
 
-int report_state(const rarray<double,1>& current_state, const double t);
-{
+int report_state(const rarray<double,1>& current_state, const double t){
+    
     std::cout << 't = ' << t << 'S: ' << current_state[0] << ' K: ' << current_state[1] << ' Z: ' << current_state[2] << std::endl;
     
     // Success, return 1

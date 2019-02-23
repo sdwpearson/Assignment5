@@ -17,10 +17,10 @@ clean:
 report.o: report.cc report.h
 	${CXX} ${CXXFLAGS} -c -o $@ $<
 
-MZA.o: MZA.cc
+MZA.o: MZA.cc report.h
 	${CXX} ${CXXFLAGS} -c -o $@ $^
 
-MZA: MZA.o report.o
+MZA: MZA.o report.o  
 	${CXX} ${LDFLAGS} -o $@ $^ ${LDLIBS} ${LDBOOST}
 
 run-MZA: MZA
