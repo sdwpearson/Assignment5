@@ -17,8 +17,7 @@
 
 using namespace boost::numeric::odeint;
 
-void rhs (const rarray<double,1>& current_state, const rarray<double,1>& next_state , const  double t) {
-	dxdt = 3.0/(2.0*t*t) + x/(2.0*t);
+void rhs (const rarray<double,1>& current_state, rarray<double,1>& next_state , const  double t) {
 	double S = current_state[0];
 	double K = current_state[0];
 	double Z = current_state[0];
@@ -49,7 +48,7 @@ int  main() {
 
 	integrate_adaptive(
 		make_controlled (1E-6, 1E-6,  stepper_type ()),
-	 	rhs , current_state, initial_time, end_time, time_step, report);
+	 	rhs , current_state, initial_time, end_time, time_step, report_state);
 }
 
 

@@ -28,7 +28,7 @@ run-MZA: MZA
 
 help:
 	@echo Type:
-	@echo " 'make'                		to compile the MZA application;"
+	@echo " 'make all'                	to compile the MZA application;"
 	@echo " 'make clean'            	to remove output files;"
 	@echo " 'make report.o'            	to compile the reporting module;"
 	@echo " 'make MZA.o'            	to compile the MZA linking files;"
