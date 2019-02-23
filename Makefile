@@ -21,7 +21,7 @@ MZA.o: MZA.cc report.h
 	${CXX} ${CXXFLAGS} -c -o $@ $^
 
 MZA: MZA.o report.o  
-	${CXX} ${LDFLAGS} -o $@ $^ ${LDLIBS} ${LDBOOST}
+	${CXX} ${LDFLAGS} -o $@ $^ ${LDLIBS}
 
 run: MZA
 	./MZA
