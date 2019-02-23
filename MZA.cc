@@ -6,7 +6,6 @@
 // Description: This file attempts to find the minimum initial number of zombies that are needed to overwhelm the apartment building as outlined in Assignment 5.
 
 #include <iostream>
-#include <rarray>
 #include <boost/numeric/odeint.hpp>
 #include "report.h"
 
@@ -16,8 +15,9 @@
 #define C 0.01
 
 using namespace boost::numeric::odeint;
+typedef boost::array< double , 3 > state_type;
 
-void rhs (const rarray<double,1>& x, rarray<double,1>& dxdt , const double t) {
+void rhs (const state_type& x, state_type& dxdt , const double t) {
 	double S = x[0];
 	double K = x[1];
 	double Z = x[2];
@@ -28,7 +28,7 @@ void rhs (const rarray<double,1>& x, rarray<double,1>& dxdt , const double t) {
 	dxdt[2] =  B*S*Z + C*K*Z - A*K*Z;
 }
 
-typedef  runge_kutta_dopri5 <rarray<double,1>> stepper_type;
+typedef  runge_kutta_dopri5 <state_type> stepper_type;
 
 int  main() {
 
@@ -39,7 +39,7 @@ int  main() {
 	double initial_time = 0;			// Initial time of the simulation (hours)
 	double end_time = 24;				// End time of the simulation (hours)
 	double time_step = 1;				// Time step to report (hours)
-    rarray<double,1> x(3);     			// State vector containing [S K Z]
+    state_type x;     					// State vector containing [S K Z]
 
     // Initial condition assignment
     x[0] = S0;				
