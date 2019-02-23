@@ -39,7 +39,7 @@ int  main() {
 	double initial_time = 0;			// Initial time of the simulation (hours)
 	double end_time = 24;				// End time of the simulation (hours)
 	double time_step = 1;				// Time step to report (hours)
-    rarray<int,1> current_state(3);     // State vector containing [S K Z]
+    rarray<double,1> current_state(3);     // State vector containing [S K Z]
 
     // Initial condition assignment
     current_state[0] = S0;				
