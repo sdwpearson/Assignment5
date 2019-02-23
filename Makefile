@@ -10,7 +10,7 @@ LDBOOST = -lboost_unit_test_framework
 all: MZA
 
 clean: 
-	\rm -f MZA.o MZA
+	\rm -f report.o MZA.o MZA
 
 .PHONY: all clean run-MZA
 

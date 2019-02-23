@@ -25,7 +25,7 @@ void rhs (const rarray<double,1>& x, rarray<double,1>& dxdt , const double t) {
 	// Equations that define the next state
 	dxdt[0] = -B*S*K - E*S*K;
 	dxdt[1] = -C*K*Z + E*S*K;
-	next_dxdtstate[2] =  B*S*Z + C*K*Z - A*K*Z;
+	dxdt[2] =  B*S*Z + C*K*Z - A*K*Z;
 }
 
 typedef  runge_kutta_dopri5 <double > stepper_type;
