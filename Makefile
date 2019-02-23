@@ -23,7 +23,7 @@ MZA.o: MZA.cc report.h
 MZA: MZA.o report.o  
 	${CXX} ${LDFLAGS} -o $@ $^ ${LDLIBS} ${LDBOOST}
 
-run-MZA: MZA
+run: MZA
 	./MZA
 
 help:
@@ -33,7 +33,7 @@ help:
 	@echo " 'make report.o'            	to compile the reporting module;"
 	@echo " 'make MZA.o'            	to compile the MZA linking files;"
 	@echo " 'make MZA'            		to compile the MZA application;"
-	@echo " 'make run-MZA'            	to run the MZA application;"
+	@echo " 'make run'	            	to run the MZA application;"
 
 
 

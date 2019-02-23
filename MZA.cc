@@ -28,7 +28,7 @@ void rhs (const rarray<double,1>& x, rarray<double,1>& dxdt , const double t) {
 	dxdt[2] =  B*S*Z + C*K*Z - A*K*Z;
 }
 
-typedef  runge_kutta_dopri5 <double > stepper_type;
+typedef  runge_kutta_dopri5 <rarray<double,1>> stepper_type;
 
 int  main() {
 
