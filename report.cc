@@ -12,6 +12,6 @@ void report_state(const double x, const double t){
 
     //std::cout << "t = " << t << "S: " << x[0] << " K: " << x[1] << " Z: " << x[2] << std::endl;
 
-    std:cout << "t = " << t << "Z: " << x << std:endl;
+    std::cout << "t = " << t << "Z: " << x << std::endl;
     
 }
