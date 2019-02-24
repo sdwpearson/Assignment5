@@ -50,9 +50,9 @@ int  main() {
     state_type x;     					// State vector containing [S K Z]
 
 
-    for (int i=1; i<5; i++){
+    for (int i=5; i<10; i++){
 		K0 = 9;							// Initial number of zombie killers
-		Z0 = i*5;							// Initial number of zombies
+		Z0 = i;							// Initial number of zombies
 		S0 = num_apartment - K0 - Z0; 	// Initial number of regurlar people
 	    
 	    // Initial condition assignment
@@ -64,6 +64,7 @@ int  main() {
 			make_controlled (1E-6, 1E-6,  stepper_type ()),
 		 	rhs , x, initial_time, end_time, time_step, report_boost);
 
+		std::cout << "Final state: " << x[0] << " " << x[1] << " "  << x[2] << std::endl;
 		std::cout << "----------------- "<< Z0 <<" ---------------------" << std::endl;
 	}
 
