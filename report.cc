@@ -23,9 +23,15 @@ void report_state(const rarray<double,1>& x, const char* filename, int length, c
     if(t == 0){
         try
         {  
-            // Create the file. 
-            NcFile dataFile(filename, NcFile::write);
-          
+            if(x[3] == 5){
+                // Create/Overwrite a new file. 
+                NcFile dataFile(filename, NcFile::replace);
+            } 
+            else {
+                // Create the file. 
+                NcFile dataFile(filename, NcFile::write);
+            }
+            
             // Create netCDF dimensions
             NcDim timeDim = dataFile.addDim("time");
             NcDim stateDim = dataFile.addDim("state", length);
