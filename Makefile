@@ -3,20 +3,27 @@ CXXFLAGS=-std=c++11 -g -O3 -march=native
 CXXTESTFLAGS=-std=c++11 -g 
 CXXFLAGS=-std=c++11 -g -O2 -march=native -ftree-vectorize -Wall
 
+# netCDF includes and libraries for it to function
+NETCDF_INC = /scinet/teach/software/2018a/opt/gcc-7.3.0/netcdf/4.6.1/include
+NETCDF_LIB = /scinet/teach/software/2018a/opt/gcc-7.3.0/netcdf/4.6.1/lib
+
 LDFLAGS=-g
-LDLIBS=
+LDLIBS= -lnetcdf_c++4
 LDBOOST = -lboost_unit_test_framework
 
 all: MZA
 
 clean: 
-	\rm -f report.o MZA.o 
+	\rm -f report.o MZA.o MZA.nc
 
-MZA.o: MZA.cc 
+report.o: report.cc report.h
+	${CXX} ${CXXFLAGS} -I${NETCDF_INC} -c -o $@ $<
+
+MZA.o: MZA.cc report.h
 	${CXX} ${CXXFLAGS} -c -o $@ $<
 
-MZA: MZA.o 
-	${CXX} ${LDFLAGS} -o $@ $^ ${LDLIBS}
+MZA: MZA.o report.o
+	${CXX} ${LDFLAGS} -L${NETCDF_LIB} -o $@ $^ ${LDLIBS}
 
 run: MZA
 	./MZA
