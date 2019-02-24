@@ -37,6 +37,7 @@ void report_state(const rarray<double,1>& x, const char* filename, int length, c
                 std::vector<NcDim> dims;
                 dims.push_back(timeDim);
                 dims.push_back(stateDim);
+                std::cout << "creating " << array_name << std::endl;
                 NcVar data = dataFile.addVar(array_name, ncDouble, dims);
            
                 // create an index vector to select the data
@@ -66,6 +67,12 @@ void report_state(const rarray<double,1>& x, const char* filename, int length, c
                 dims.push_back(stateDim);
                 std::cout << "creating " << array_name << std::endl;
                 NcVar data = dataFile.addVar(array_name, ncDouble, dims);
+
+                // See if the variable was successfully created
+                if(data.isNull()) {
+                    std::cout << "Variable named: " << array_name << " can not be created. Exiting..." << std::endl;
+                    //return;
+                }
            
                 // create an index vector to select the data
                 std::vector<size_t> startp;
@@ -97,7 +104,7 @@ void report_state(const rarray<double,1>& x, const char* filename, int length, c
             // See if the variable was successfully retrieved
             if(data.isNull()) {
                 std::cout << "No variable named: " << array_name << " exiting..." << std::endl;
-                return;
+                //return;
             }
 
             size_t time_index = data.getDim(0).getSize();
