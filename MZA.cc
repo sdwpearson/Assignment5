@@ -8,7 +8,7 @@
 #include <iostream>
 #include <boost/numeric/odeint.hpp>
 #include <rarray>
-#include "report.h"
+// #include "report.h"
 
 #define B 0.02
 #define E 0.015
@@ -28,22 +28,14 @@ void rhs ( const state_type& x, state_type& dxdt , const double t) {
 	double Z = x[2];
 
 	// Equations that define the next state
-	dxdt[0] = -B*S*K - E*S*K;
+	dxdt[0] = -B*S*Z - E*S*K;
 	dxdt[1] = -C*K*Z + E*S*K;
 	dxdt[2] =  B*S*Z + C*K*Z - A*K*Z;
-
-	// double S = 10.0;
-	// double K = 30.0;
-	// double Z = 4.0;
-	// dxdt = B*S*Z + C*K*Z - A*K*Z;
 }
 
 void report_boost(const state_type& x, const double t){
 
-    std::cout << "t = " << t << " S: " << x[0] << " K: " << x[1] << " Z: " << x[2] << std::endl;
-
-    // std::cout << "t = " << t << " Z: " << x << std::endl;
-    
+    std::cout << "t = " << t << " S: " << x[0] << " K: " << x[1] << " Z: " << x[2] << std::endl;    
 }
 
 int  main() {

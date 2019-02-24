@@ -12,13 +12,10 @@ all: MZA
 clean: 
 	\rm -f report.o MZA.o 
 
-report.o: report.cc report.h
+MZA.o: MZA.cc 
 	${CXX} ${CXXFLAGS} -c -o $@ $<
 
-MZA.o: MZA.cc report.h
-	${CXX} ${CXXFLAGS} -c -o $@ $<
-
-MZA: MZA.o report.o  
+MZA: MZA.o 
 	${CXX} ${LDFLAGS} -o $@ $^ ${LDLIBS}
 
 run: MZA
