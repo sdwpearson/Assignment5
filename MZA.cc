@@ -42,17 +42,16 @@ int  main() {
 
 	int num_apartment = 500; 			// Total number of people in the apartment building
 	int K0 = 9;							// Initial number of zombie killers
-	int Z0 = 1;							// Initial number of zombies
-	int S0 = num_apartment - K0 - Z0; 	// Initial number of regurlar people
-	double initial_time = 0;			// Initial time of the simulation (hours)
+	int Z0 = 0;							// Initial number of zombies
+	int S0 = 0;						 	// Initial number of regular people
+	double initial_time = 0;			// Initial time of the simulation (I'm pretending the units are hours)
 	double end_time = 24;				// End time of the simulation (hours)
 	double time_step = 1;				// Time step to report (hours)
     state_type x;     					// State vector containing [S K Z]
 
-
-    for (int i=5; i<10; i++){
-		K0 = 9;							// Initial number of zombie killers
-		Z0 = i;							// Initial number of zombies
+    // Loop through different initial zombie populations to find the one that lets
+    // the zombies win
+    for (Z0=5; Z0<10; Z0++){
 		S0 = num_apartment - K0 - Z0; 	// Initial number of regurlar people
 	    
 	    // Initial condition assignment
@@ -60,9 +59,19 @@ int  main() {
 	    x[1] = K0;
 	    x[2] = Z0;
 
+	    // Simulate 24 "hours" to see if the zombies or the humans survive (population > 1)
 		integrate_adaptive(
 			make_controlled (1E-6, 1E-6,  stepper_type ()),
 		 	rhs , x, initial_time, end_time, time_step, report_boost);
+
+		// After one day there are still surviving zombies and people so we need to simulate more days until 
+		// we have a winner
+		while((x[0] > 1.0 || x[1] > 1.0) && (x[2] > 1.0)){
+			std::cout << "Simulating another day ... " << x[0] << " " << x[1] << " "  << x[2] << std::endl;
+			integrate_adaptive(
+			make_controlled (1E-6, 1E-6,  stepper_type ()),
+		 	rhs , x, initial_time, end_time, time_step, report_boost);
+		}
 
 		std::cout << "Final state: " << x[0] << " " << x[1] << " "  << x[2] << std::endl;
 		std::cout << "----------------- "<< Z0 <<" ---------------------" << std::endl;
