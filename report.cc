@@ -63,9 +63,10 @@ void report_state(const rarray<double,1>& x, const char* filename, int length, c
                 // See if the variable was successfully created
                 if(dataFile.isNull()) {
                     std::cout << "file named: " << filename << " can not be accessed. Exiting..." << std::endl;
-                    //return;
+                    return;
                 }
 
+                std::cout << "creating Dimensions" << std::endl;
                 // Create netCDF dimensions
                 NcDim timeDim = dataFile.addDim("time");
                 NcDim stateDim = dataFile.addDim("state", length+1);
@@ -81,7 +82,7 @@ void report_state(const rarray<double,1>& x, const char* filename, int length, c
                 // See if the variable was successfully created
                 if(data.isNull()) {
                     std::cout << "Variable named: " << array_name << " can not be created. Exiting..." << std::endl;
-                    //return;
+                    return;
                 }
            
                 // create an index vector to select the data
@@ -98,6 +99,7 @@ void report_state(const rarray<double,1>& x, const char* filename, int length, c
             }
         }
         catch(NcException& e){
+            std::cout << "Exception caught: " << e.what() << std::endl;
             e.what();
         }
     } 
@@ -114,7 +116,7 @@ void report_state(const rarray<double,1>& x, const char* filename, int length, c
             // See if the variable was successfully retrieved
             if(data.isNull()) {
                 std::cout << "No variable named: " << array_name << " exiting..." << std::endl;
-                //return;
+                return;
             }
 
             size_t time_index = data.getDim(0).getSize();
