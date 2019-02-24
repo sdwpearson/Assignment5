@@ -16,6 +16,7 @@ using namespace netCDF::exceptions;
 
 void report_state(const rarray<double,1>& x, const char* filename, int length, const double t){ 
 
+    std::cout << "writing to netCDF file" <<std::endl;
     // Each different Z0 array will have a different name
     std::string array_name = "MZA_Z0_";
     int array_number = (int)x[3];
@@ -108,7 +109,6 @@ void report_state(const rarray<double,1>& x, const char* filename, int length, c
             }
 
             size_t time_index = data.getDim(0).getSize();
-            std::cout << "time_index = " << time_index << std::endl;
 
             // create an index vector to select the data            
             std::vector<size_t> indexp;

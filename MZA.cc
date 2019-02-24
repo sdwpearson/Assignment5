@@ -44,6 +44,7 @@ void observer(const state_type& x, const double t){
     x_rarray[2] = x[2];
     x_rarray[3] = x[3];
 
+    std::cout<< "reporting state..." << std::endl;
     report_state(x_rarray, FILENAME, STATE_LENGTH-1, t);
 
     std::cout << "t = " << t << " S: " << x[0] << " K: " << x[1] << " Z: " << x[2] << " Z0: " << x[3] << std::endl;    
