@@ -16,7 +16,9 @@
 #define C 0.01
 
 using namespace boost::numeric::odeint;
+
 typedef boost::array< double , 3 > state_type;
+typedef  runge_kutta_dopri5 < state_type > stepper_type;
 
 // void rhs (const double x, double& dxdt , const double t) {
 //void rhs ( const rarray<double,1>& x, rarray<double,1>& dxdt , const double t) {
@@ -36,7 +38,13 @@ void rhs ( const state_type& x, state_type& dxdt , const double t) {
 	// dxdt = B*S*Z + C*K*Z - A*K*Z;
 }
 
-typedef  runge_kutta_dopri5 < state_type > stepper_type;
+void report_boost(const state_type& x, const double t){
+
+    std::cout << "t = " << t << " S: " << x[0] << " K: " << x[1] << " Z: " << x[2] << std::endl;
+
+    // std::cout << "t = " << t << " Z: " << x << std::endl;
+    
+}
 
 int  main() {
 
@@ -59,7 +67,7 @@ int  main() {
 
 	integrate_adaptive(
 		make_controlled (1E-6, 1E-6,  stepper_type ()),
-	 	rhs , x, initial_time, end_time, time_step, report_state);
+	 	rhs , x, initial_time, end_time, time_step, report_boost);
 
 	return 0;
 }
