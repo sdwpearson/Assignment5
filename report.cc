@@ -26,32 +26,54 @@ void report_state(const rarray<double,1>& x, const char* filename, int length, c
             if(x[3] == 5){
                 // Create/Overwrite a new file. 
                 NcFile dataFile(filename, NcFile::replace);
+                
+                // Create netCDF dimensions
+                NcDim timeDim = dataFile.addDim("time");
+                NcDim stateDim = dataFile.addDim("state", length);
+              
+                // Define the variable. The type of the variable in this case is
+                // ncDouble (64-bit float).
+                std::vector<NcDim> dims;
+                dims.push_back(timeDim);
+                dims.push_back(stateDim);
+                NcVar data = dataFile.addVar(array_name, ncDouble, dims);
+           
+                // create an index vector to select the data
+                std::vector<size_t> startp;
+                startp.push_back(0);
+                startp.push_back(0);
+
+                // copy the data from the state array into the netCDF variable
+                for(int i = 0; i < length; i++){
+                    startp[1] = i;  
+                    data.putVar(startp, x[i]);
+                }
             } 
             else {
                 // Create the file. 
                 NcFile dataFile(filename, NcFile::write);
-            }
-            
-            // Create netCDF dimensions
-            NcDim timeDim = dataFile.addDim("time");
-            NcDim stateDim = dataFile.addDim("state", length);
-          
-            // Define the variable. The type of the variable in this case is
-            // ncDouble (64-bit float).
-            std::vector<NcDim> dims;
-            dims.push_back(timeDim);
-            dims.push_back(stateDim);
-            NcVar data = dataFile.addVar(array_name, ncDouble, dims);
-       
-            // create an index vector to select the data
-            std::vector<size_t> startp;
-            startp.push_back(0);
-            startp.push_back(0);
 
-            // copy the data from the state array into the netCDF variable
-            for(int i = 0; i < length; i++){
-                startp[1] = i;  
-                data.putVar(startp, x[i]);
+                // Create netCDF dimensions
+                NcDim timeDim = dataFile.addDim("time");
+                NcDim stateDim = dataFile.addDim("state", length);
+              
+                // Define the variable. The type of the variable in this case is
+                // ncDouble (64-bit float).
+                std::vector<NcDim> dims;
+                dims.push_back(timeDim);
+                dims.push_back(stateDim);
+                NcVar data = dataFile.addVar(array_name, ncDouble, dims);
+           
+                // create an index vector to select the data
+                std::vector<size_t> startp;
+                startp.push_back(0);
+                startp.push_back(0);
+
+                // copy the data from the state array into the netCDF variable
+                for(int i = 0; i < length; i++){
+                    startp[1] = i;  
+                    data.putVar(startp, x[i]);
+                }
             }
         }
         catch(NcException& e){
