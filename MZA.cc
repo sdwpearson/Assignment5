@@ -17,8 +17,8 @@
 
 using namespace boost::numeric::odeint;
 
-typedef boost::array< double , 3 > state_type;
-typedef  runge_kutta_dopri5 < state_type > stepper_type;
+typedef boost::array<double,3> state_type;
+typedef runge_kutta_dopri5 < state_type > stepper_type;
 
 // void rhs (const double x, double& dxdt , const double t) {
 //void rhs ( const rarray<double,1>& x, rarray<double,1>& dxdt , const double t) {
@@ -47,19 +47,25 @@ int  main() {
 	double initial_time = 0;			// Initial time of the simulation (hours)
 	double end_time = 24;				// End time of the simulation (hours)
 	double time_step = 1;				// Time step to report (hours)
-    //rarray<double,1> x(3);     					// State vector containing [S K Z]
     state_type x;     					// State vector containing [S K Z]
 
-    // double x = 1.0;
 
-    // Initial condition assignment
-    x[0] = S0;				
-    x[1] = K0;
-    x[2] = Z0;
+    for (int i=1; i<5; i++){
+		K0 = 9;							// Initial number of zombie killers
+		Z0 = i*5;							// Initial number of zombies
+		S0 = num_apartment - K0 - Z0; 	// Initial number of regurlar people
+	    
+	    // Initial condition assignment
+	    x[0] = S0;				
+	    x[1] = K0;
+	    x[2] = Z0;
 
-	integrate_adaptive(
-		make_controlled (1E-6, 1E-6,  stepper_type ()),
-	 	rhs , x, initial_time, end_time, time_step, report_boost);
+		integrate_adaptive(
+			make_controlled (1E-6, 1E-6,  stepper_type ()),
+		 	rhs , x, initial_time, end_time, time_step, report_boost);
+
+		std::cout << "----------------- "<< Z0 <<" ---------------------" << std::endl;
+	}
 
 	return 0;
 }
