@@ -60,6 +60,12 @@ void report_state(const rarray<double,1>& x, const char* filename, int length, c
                 // Create the file. 
                 NcFile dataFile(filename, NcFile::write);
 
+                // See if the variable was successfully created
+                if(dataFile.isNull()) {
+                    std::cout << "file named: " << filename << " can not be accessed. Exiting..." << std::endl;
+                    //return;
+                }
+
                 // Create netCDF dimensions
                 NcDim timeDim = dataFile.addDim("time");
                 NcDim stateDim = dataFile.addDim("state", length+1);
