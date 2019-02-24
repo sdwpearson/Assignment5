@@ -108,10 +108,10 @@ void report_state(const rarray<double,1>& x, const char* filename, int length, c
             indexp.push_back(0);
 
             // copy the data from the state array into the netCDF variable               
-            data.putVar(startp, t);
+            data.putVar(indexp, t);
             for(int i = 0; i < length; i++){
-                startp[1] = i+1;  
-                data.putVar(startp, x[i]);
+                indexp[1] = i+1;  
+                data.putVar(indexp, x[i]);
             }
         }
         catch(NcException& e){
