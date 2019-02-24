@@ -10,15 +10,13 @@ LDBOOST = -lboost_unit_test_framework
 all: MZA
 
 clean: 
-	\rm -f report.o MZA.o MZA
-
-.PHONY: all clean run-MZA
+	\rm -f report.o MZA.o 
 
 report.o: report.cc report.h
 	${CXX} ${CXXFLAGS} -c -o $@ $<
 
 MZA.o: MZA.cc report.h
-	${CXX} ${CXXFLAGS} -c -o $@ $^
+	${CXX} ${CXXFLAGS} -c -o $@ $<
 
 MZA: MZA.o report.o  
 	${CXX} ${LDFLAGS} -o $@ $^ ${LDLIBS}
