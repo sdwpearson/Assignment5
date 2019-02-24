@@ -30,7 +30,7 @@ void report_state(const rarray<double,1>& x, const char* filename, int length, c
 
                 // Create netCDF dimensions
                 NcDim timeDim = dataFile.addDim("time");
-                NcDim stateDim = dataFile.addDim("state", length);
+                NcDim stateDim = dataFile.addDim("state", length+1);
               
                 // Define the variable. The type of the variable in this case is
                 // ncDouble (64-bit float).
@@ -57,13 +57,14 @@ void report_state(const rarray<double,1>& x, const char* filename, int length, c
 
                 // Create netCDF dimensions
                 NcDim timeDim = dataFile.addDim("time");
-                NcDim stateDim = dataFile.addDim("state", length);
+                NcDim stateDim = dataFile.addDim("state", length+1);
               
                 // Define the variable. The type of the variable in this case is
                 // ncDouble (64-bit float).
                 std::vector<NcDim> dims;
                 dims.push_back(timeDim);
                 dims.push_back(stateDim);
+                std::cout << "creating " << array_name << std::endl;
                 NcVar data = dataFile.addVar(array_name, ncDouble, dims);
            
                 // create an index vector to select the data
