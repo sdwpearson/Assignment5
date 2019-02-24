@@ -24,7 +24,7 @@ void report_state(const rarray<double,1>& x, const char* filename, int length, c
     if(t <= 0.00000000001){
         try
         {  
-            if(x[3] == 7){
+            if(array_number == 7){
                 // Create/Overwrite a new file. 
                 NcFile dataFile(filename, NcFile::replace);
 
@@ -105,7 +105,7 @@ void report_state(const rarray<double,1>& x, const char* filename, int length, c
 
             // create an index vector to select the data            
             std::vector<size_t> indexp;
-            indexp.push_back(time_index+1); 
+            indexp.push_back(time_index); 
             indexp.push_back(0);
 
             // copy the data from the state array into the netCDF variable               
