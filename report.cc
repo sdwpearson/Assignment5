@@ -21,20 +21,15 @@ void report_state(const rarray<double,1>& x, const char* filename, int length, c
     int array_number = (int)x[3];
     array_name += std::to_string(array_number);
 
-
-    std::cout << "writing to netCDF file with " << array_number << std::endl;
-
     if(t <= 0.00001){
         try
         {  
-            std::cout << "trying ..." << std::endl;
-            if(array_number == 7){
+            if(array_number == 6){
                 // Create/Overwrite a new file. 
                 NcFile dataFile(filename, NcFile::replace);
 
                 // Create netCDF dimensions
                 NcDim timeDim = dataFile.addDim("time"+std::to_string(array_number));
-                // NcDim stateDim = dataFile.addDim("state"+std::to_string(array_number), length+1);
                 NcDim stateDim = dataFile.addDim("state", length+1);
               
                 // Define the variable. The type of the variable in this case is
@@ -57,7 +52,6 @@ void report_state(const rarray<double,1>& x, const char* filename, int length, c
                 }
             } 
             else {
-                std::cout << "inside the else statement" << std::endl;
                 // Create the file. 
                 NcFile dataFile(filename, NcFile::write);
 
@@ -67,10 +61,8 @@ void report_state(const rarray<double,1>& x, const char* filename, int length, c
                     return;
                 }
 
-                std::cout << "creating Dimensions" << std::endl;
                 // Create netCDF dimensions
                 NcDim timeDim = dataFile.addDim("time"+std::to_string(array_number));
-                // NcDim stateDim = dataFile.addDim("state"+std::to_string(array_number), length+1);
                 NcDim stateDim = dataFile.getDim("state");
               
                 // Define the variable. The type of the variable in this case is
@@ -78,7 +70,6 @@ void report_state(const rarray<double,1>& x, const char* filename, int length, c
                 std::vector<NcDim> dims;
                 dims.push_back(timeDim);
                 dims.push_back(stateDim);
-                std::cout << "creating " << array_name << std::endl;
                 NcVar data = dataFile.addVar(array_name, ncDouble, dims);
 
                 // See if the variable was successfully created
