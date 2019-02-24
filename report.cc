@@ -16,15 +16,18 @@ using namespace netCDF::exceptions;
 
 void report_state(const rarray<double,1>& x, const char* filename, int length, const double t){ 
 
-    std::cout << "writing to netCDF file" <<std::endl;
     // Each different Z0 array will have a different name
     std::string array_name = "MZA_Z0_";
     int array_number = (int)x[3];
     array_name += std::to_string(array_number);
 
-    if(t <= 0.00000000001){
+
+    std::cout << "writing to netCDF file with " << array_number << std::endl;
+
+    if(t <= 0.00001){
         try
         {  
+            std::cout << "trying ..." << std::endl;
             if(array_number == 7){
                 // Create/Overwrite a new file. 
                 NcFile dataFile(filename, NcFile::replace);
@@ -38,7 +41,6 @@ void report_state(const rarray<double,1>& x, const char* filename, int length, c
                 std::vector<NcDim> dims;
                 dims.push_back(timeDim);
                 dims.push_back(stateDim);
-                std::cout << "creating " << array_name << std::endl;
                 NcVar data = dataFile.addVar(array_name, ncDouble, dims);
            
                 // create an index vector to select the data
@@ -54,6 +56,7 @@ void report_state(const rarray<double,1>& x, const char* filename, int length, c
                 }
             } 
             else {
+                std::cout << "inside the else statement" << std::endl;
                 // Create the file. 
                 NcFile dataFile(filename, NcFile::write);
 
