@@ -44,7 +44,7 @@ void observer(const state_type& x, const double t){
     x_rarray[2] = x[2];
     x_rarray[3] = x[3];
 
-    report_state(x_rarray, FILENAME, STATE_LENGTH, t);
+    report_state(x_rarray, FILENAME, STATE_LENGTH-1, t);
 
     std::cout << "t = " << t << " S: " << x[0] << " K: " << x[1] << " Z: " << x[2] << " Z0: " << x[3] << std::endl;    
 }
@@ -62,7 +62,7 @@ int  main() {
 
     // Loop through different initial zombie populations to find the one that lets
     // the zombies win
-    for (Z0=5; Z0<10; Z0++){
+    for (Z0=7; Z0<9; Z0++){
 		S0 = num_apartment - K0 - Z0; 	// Initial number of regular people
 	    
 	    // Initial condition assignment
