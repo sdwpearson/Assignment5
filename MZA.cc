@@ -16,6 +16,7 @@
 #define C 0.01
 #define FILENAME "MZA.nc"
 #define STATE_LENGTH 4
+#define INITIAL_Z0 6.0
 
 using namespace boost::numeric::odeint;
 
@@ -44,7 +45,7 @@ void observer(const state_type& x, const double t){
     x_rarray[2] = x[2];
     x_rarray[3] = x[3];
 
-    report_state(x_rarray, FILENAME, STATE_LENGTH-1, t); 
+    report_state(x_rarray, FILENAME, STATE_LENGTH-1, t, INITIAL_Z0); 
 }
 
 int  main() {
@@ -59,8 +60,8 @@ int  main() {
     state_type x;     					// State vector containing [S K Z Z0]
 
     // Loop through different initial zombie populations to find the one that lets
-    // the zombies win
-    for (Z0=6; Z0<10; Z0++){
+    // the zombies win. Once you've found that critical population, exit the program.
+    for (Z0=INITIAL_Z0; Z0<10 || x[2]>1.0; Z0++){
 		S0 = num_apartment - K0 - Z0; 	// Initial number of regular people
 	    
 	    // Initial condition assignment
@@ -86,12 +87,16 @@ int  main() {
 		}
 
 		std::cout << "Final state: " << " S: " << x[0] << " K: " << x[1] << " Z: " << x[2] << std::endl; 
+
 		if((x[0] > 1.0 || x[1] > 1.0))
 			std::cout << "Humans win!!" << std::endl;
 		else
-			std::cout << "Zombies win." << std::endl;
+			std::cout << "Zombies win :'(" << std::endl;
+
 		std::cout << "--------------------------------------" << std::endl;
 	}
+
+	std::cout << std::endl << "Final Result: If the initial Zombie population is over " << Z0 << "zombies, no one in the apartment building will survive!" << std::endl;
 
 	return 0;
 }

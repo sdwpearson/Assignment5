@@ -14,7 +14,7 @@
 using namespace netCDF;
 using namespace netCDF::exceptions;
 
-void report_state(const rarray<double,1>& x, const char* filename, int length, const double t){ 
+void report_state(const rarray<double,1>& x, const char* filename, int length, const double t, const double INITIAL_Z0){ 
 
     // Each different Z0 array will have a different name
     std::string array_name = "MZA_Z0_";
@@ -24,7 +24,7 @@ void report_state(const rarray<double,1>& x, const char* filename, int length, c
     if(t <= 0.00001){
         try
         {  
-            if(array_number == 6){
+            if(array_number == INITIAL_Z0){
                 // Create/Overwrite a new file. 
                 NcFile dataFile(filename, NcFile::replace);
 

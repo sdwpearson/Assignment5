@@ -13,6 +13,6 @@
 
 // records the current state in a netCDF File
 //
-void report_state(const rarray<double,1>& x,  const char* filename, int length, const double t);
+void report_state(const rarray<double,1>& x,  const char* filename, int length, const double t, const double INITIAL_Z0);
 
 #endif
