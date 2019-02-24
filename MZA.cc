@@ -8,7 +8,7 @@
 #include <iostream>
 #include <boost/numeric/odeint.hpp>
 #include <rarray>
-// #include "report.h"
+#include "report.h"
 
 #define B 0.02
 #define E 0.015
