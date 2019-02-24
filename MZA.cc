@@ -34,7 +34,6 @@ void rhs ( const state_type& x, state_type& dxdt , const double t) {
 }
 
 void report_boost(const state_type& x, const double t){
-
     std::cout << "t = " << t << " S: " << x[0] << " K: " << x[1] << " Z: " << x[2] << std::endl;    
 }
 
@@ -59,6 +58,8 @@ int  main() {
 	    x[1] = K0;
 	    x[2] = Z0;
 
+		std::cout << "Initial state: " " S: " << x[0] << " K: " << x[1] << " Z: " << x[2] << std::endl;  
+
 	    // Simulate 24 "hours" to see if the zombies or the humans survive (population > 1)
 		integrate_adaptive(
 			make_controlled (1E-6, 1E-6,  stepper_type ()),
@@ -74,7 +75,11 @@ int  main() {
 		}
 
 		std::cout << "Final state: " << x[0] << " " << x[1] << " "  << x[2] << std::endl;
-		std::cout << "----------------- "<< Z0 <<" ---------------------" << std::endl;
+		if((x[0] > 1.0 || x[1] > 1.0))
+			std::cout << "Humans win!!" << std::endl;
+		else
+			std::cout << "Zombies win." << std::endl;
+		std::cout << "--------------------------------------" << std::endl;
 	}
 
 	return 0;
