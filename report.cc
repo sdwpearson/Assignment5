@@ -33,8 +33,8 @@ void report_state(const rarray<double,1>& x, const char* filename, int length, c
                 NcFile dataFile(filename, NcFile::replace);
 
                 // Create netCDF dimensions
-                NcDim timeDim = dataFile.addDim("time");
-                NcDim stateDim = dataFile.addDim("state", length+1);
+                NcDim timeDim = dataFile.addDim("time"+std::to_string(array_number));
+                NcDim stateDim = dataFile.addDim("state"+std::to_string(array_number), length+1);
               
                 // Define the variable. The type of the variable in this case is
                 // ncDouble (64-bit float).
@@ -68,8 +68,8 @@ void report_state(const rarray<double,1>& x, const char* filename, int length, c
 
                 std::cout << "creating Dimensions" << std::endl;
                 // Create netCDF dimensions
-                NcDim timeDim = dataFile.addDim("time");
-                NcDim stateDim = dataFile.addDim("state", length+1);
+                NcDim timeDim = dataFile.addDim("time"+std::to_string(array_number));
+                NcDim stateDim = dataFile.addDim("state"+std::to_string(array_number), length+1);
               
                 // Define the variable. The type of the variable in this case is
                 // ncDouble (64-bit float).
@@ -134,6 +134,7 @@ void report_state(const rarray<double,1>& x, const char* filename, int length, c
             }
         }
         catch(NcException& e){
+            std::cout << "Exception caught: " << e.what() << std::endl;
             e.what();
         }
     }
