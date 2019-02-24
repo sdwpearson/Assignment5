@@ -7,6 +7,7 @@
 
 #include <iostream>
 #include <boost/numeric/odeint.hpp>
+#include <rarray>
 #include "report.h"
 
 #define B 0.02
@@ -17,24 +18,24 @@
 using namespace boost::numeric::odeint;
 typedef boost::array< double , 3 > state_type;
 
-void rhs (const double x, double& dxdt , const double t) {
-	//double S = x[0];
-	//double K = x[1];
-	//double Z = x[2];
+// void rhs (const double x, double& dxdt , const double t) {
+void rhs ( const rarray<double,1>& x, rarray<double,1>& dxdt , const double t) {
+	double S = x[0];
+	double K = x[1];
+	double Z = x[2];
 
 	// Equations that define the next state
-	//dxdt[0] = -B*S*K - E*S*K;
-	//dxdt[1] = -C*K*Z + E*S*K;
-	//dxdt[2] =  B*S*Z + C*K*Z - A*K*Z;
+	dxdt[0] = -B*S*K - E*S*K;
+	dxdt[1] = -C*K*Z + E*S*K;
+	dxdt[2] =  B*S*Z + C*K*Z - A*K*Z;
 
-	double S = 10.0;
-	double K = 30.0;
-	double Z = 4.0;
-
-	dxdt = B*S*Z + C*K*Z - A*K*Z;
+	// double S = 10.0;
+	// double K = 30.0;
+	// double Z = 4.0;
+	// dxdt = B*S*Z + C*K*Z - A*K*Z;
 }
 
-typedef  runge_kutta_dopri5 <double> stepper_type;
+typedef  runge_kutta_dopri5 < rarray<double,1> > stepper_type;
 
 int  main() {
 
@@ -45,14 +46,14 @@ int  main() {
 	double initial_time = 0;			// Initial time of the simulation (hours)
 	double end_time = 24;				// End time of the simulation (hours)
 	double time_step = 1;				// Time step to report (hours)
-    //state_type x;     					// State vector containing [S K Z]
+    rarray<double,1> x(3);     					// State vector containing [S K Z]
 
-    double x = 1.0;
+    // double x = 1.0;
 
     // Initial condition assignment
-    // x[0] = S0;				
-    // x[1] = K0;
-    // x[2] = Z0;
+    x[0] = S0;				
+    x[1] = K0;
+    x[2] = Z0;
 
 	integrate_adaptive(
 		make_controlled (1E-6, 1E-6,  stepper_type ()),
