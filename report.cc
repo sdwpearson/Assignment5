@@ -3,7 +3,9 @@
 // Date: February 23, 2019
 // PHY1610 Assignment 5
 //
-// Description: This file reports the current state of the Regular people, Zombie killers, and Zombies 
+// Description: This file reports the current state of the time, Regular people, Zombie killers, and Zombies in
+// a netCDF file. On the first iteration it creates the file and on subsequent ones it appends to the existing
+// file. For each different value of Z0 it will create a new variable.
 
 #include <rarray>
 #include <netcdf>
@@ -16,7 +18,8 @@ using namespace netCDF::exceptions;
 
 void report_state(const rarray<double,1>& x, const char* filename, int length, const double t, const double INITIAL_Z0){ 
 
-    // Each different Z0 array will have a different name
+    // Each different Z0 array will have a different name 
+    // ex. for Z0 = 3, the variable name will be "MZA_Z0_3"
     std::string array_name = "MZA_Z0_";
     int array_number = (int)x[3];
     array_name += std::to_string(array_number);
@@ -112,6 +115,7 @@ void report_state(const rarray<double,1>& x, const char* filename, int length, c
                 return;
             }
 
+            // Get the current time iteration to write to the next line in the array
             size_t time_index = data.getDim(0).getSize();
 
             // create an index vector to select the data            

@@ -23,9 +23,9 @@ using namespace boost::numeric::odeint;
 typedef boost::array<double,STATE_LENGTH> state_type;
 typedef runge_kutta_dopri5 < state_type > stepper_type;
 
-// void rhs (const double x, double& dxdt , const double t) {
-//void rhs ( const rarray<double,1>& x, rarray<double,1>& dxdt , const double t) {
+// Function that computes the right hand side of the ODEs for the stepper
 void rhs ( const state_type& x, state_type& dxdt , const double t) {
+	// Extract the current state variables so they're easier to read 
 	double S = x[0];
 	double K = x[1];
 	double Z = x[2];
@@ -39,12 +39,13 @@ void rhs ( const state_type& x, state_type& dxdt , const double t) {
 void observer(const state_type& x, const double t){
     rarray<double,1> x_rarray(STATE_LENGTH); // array to pass to the netCDF writer with the current state
 
-    // Store the current state in an rarray
+    // Store the current state in an rarray to send to the netCDF writer
     x_rarray[0] = x[0];
     x_rarray[1] = x[1];
     x_rarray[2] = x[2];
     x_rarray[3] = x[3];
 
+    // Write the current state in a netCDF file
     report_state(x_rarray, FILENAME, STATE_LENGTH-1, t, INITIAL_Z0); 
 }
 
@@ -59,15 +60,17 @@ int  main() {
 	double time_step = 1;				// Time step to report (hours)
     state_type x;     					// State vector containing [S K Z Z0]
 
+    
+
     // Loop through different initial zombie populations to find the one that lets
     // the zombies win. Once you've found that critical population, exit the program.
     for (Z0=INITIAL_Z0; x[2]<1.0; Z0++){
 		S0 = num_apartment - K0 - Z0; 	// Initial number of regular people
 	    
-	    // Initial condition assignment
-	    x[0] = S0;				
-	    x[1] = K0;
-	    x[2] = Z0;
+	    // Initial condition assignment into the state variable
+	    x[0] = S0;						// Initial number of regular people
+	    x[1] = K0;						// Initial number of zombie killers
+	    x[2] = Z0;						// Initial number of zombies
 	    x[3] = Z0;						// Keeps track of the initial condition set for this simulation
 
 		std::cout << "Initial state: S: " << x[0] << " K: " << x[1] << " Z: " << x[2] << std::endl;  
@@ -96,7 +99,9 @@ int  main() {
 		std::cout << "--------------------------------------" << std::endl;
 	}
 
+	// Decrement Z0 to get the actual last value used because the for loop automatically increments it
 	Z0--;
+	// Report final results
 	std::cout << std::endl << "Final Result: If the initial Zombie population is greater than or equal to " << Z0 << " zombies, no one in the apartment building will survive!" << std::endl;
 
 	return 0;
