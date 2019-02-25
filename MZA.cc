@@ -16,7 +16,7 @@
 #define C 0.01
 #define FILENAME "MZA.nc"
 #define STATE_LENGTH 4
-#define INITIAL_Z0 6.0
+#define INITIAL_Z0 1.0
 
 using namespace boost::numeric::odeint;
 
@@ -96,7 +96,8 @@ int  main() {
 		std::cout << "--------------------------------------" << std::endl;
 	}
 
-	std::cout << std::endl << "Final Result: If the initial Zombie population is over " << Z0 << "zombies, no one in the apartment building will survive!" << std::endl;
+	Z0--;
+	std::cout << std::endl << "Final Result: If the initial Zombie population is greater than or equal to " << Z0 << " zombies, no one in the apartment building will survive!" << std::endl;
 
 	return 0;
 }
