@@ -61,7 +61,7 @@ int  main() {
 
     // Loop through different initial zombie populations to find the one that lets
     // the zombies win. Once you've found that critical population, exit the program.
-    for (Z0=INITIAL_Z0; Z0<10 || x[2]>1.0; Z0++){
+    for (Z0=INITIAL_Z0; x[2]<1.0; Z0++){
 		S0 = num_apartment - K0 - Z0; 	// Initial number of regular people
 	    
 	    // Initial condition assignment
